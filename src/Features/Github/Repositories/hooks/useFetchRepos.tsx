@@ -1,52 +1,88 @@
 import { useEffect, useState } from "react";
+export interface IRepos {
+  nodes: Array<Object>;
+  repositoryCount: number;
+  pageInfo?: {
+    endCursor: string;
+    startCursor: string;
+  };
+}
 
-const useFetchRepos: (
-  repositoryName: string
-) => [Array<Object>, Object | null] = (repositoryName) => {
-  const [repos, setRepos] = useState([]);
-  const [error, setError] = useState(null);
+export type FetchRepos = [IRepos, Object | null];
+interface IReposResponse {
+  data: {
+    search: IRepos;
+  };
+}
+
+interface IConfig {
+  repositoryName: string;
+  after?: string | null;
+  before?: string | null;
+}
+
+const useFetchRepos: (config: IConfig) => FetchRepos = ({
+  repositoryName,
+  before,
+  after,
+}) => {
+  const [repos, setRepos] = useState<IRepos>({ nodes: [], repositoryCount: 0 });
+  const [error, setError] = useState<Object | null>(null);
   const url = "https://api.github.com/graphql";
   useEffect(() => {
     const fetchRepos = async () => {
       try {
         let response = await fetch(url, {
           method: "POST",
-          body: getQuery(repositoryName),
+          body: buildQuery({ repositoryName, after, before }),
           headers: {
             Authorization: `bearer ${process.env.REACT_APP_GITHUB_API_TOKEN}`,
           },
         });
-        response = await response.json();
-        setRepos((response as any).data.search.nodes);
+        let data = ((await response.json()) as IReposResponse).data;
+        setRepos(data.search);
       } catch (e) {
         setError(e);
       }
     };
     fetchRepos();
-  }, [repositoryName]);
+  }, [repositoryName, before, after]);
   return [repos, error];
 };
 
-const getQuery = (repositoryName: string): string => {
-  let query = {
-    query: `{
-						search(query: \"${repositoryName}\", type: REPOSITORY, first: 100) {
-							nodes {
-								... on Repository {
-										name
-										stargazerCount
-										forks {
-											totalCount
-										}
-                    id
-                    url
-							}
-						}
-					}
-				}
-			`,
+const buildQuery = (config: IConfig): string => {
+  const { repositoryName, before, after } = config;
+  const queryObject = {
+    query: `
+        query getRepos($repositoryName: String!, $after: String, $before: String) {
+          search(query: $repositoryName, type: REPOSITORY, first: 10, after: $after, before: $before) {
+            repositoryCount
+            pageInfo {
+              startCursor
+              endCursor
+            }
+            nodes {
+              ... on Repository {
+                  name
+                  stargazerCount
+                  forks {
+                    totalCount
+                  }
+                  id
+                  url
+            }
+          }
+          }
+        }
+      `,
+    variables: {
+      repositoryName,
+      before,
+      after,
+    },
   };
-  return JSON.stringify(query);
+
+  return JSON.stringify(queryObject);
 };
 
 export default useFetchRepos;

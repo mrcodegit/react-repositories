@@ -5,6 +5,7 @@ import React from "react";
 export interface IProps {
   columns?: ColumnsType<any>;
   repositoryName?: string;
+  perPage?: number;
 }
 
 export const DEFAULT_COLUMNS: ColumnsType<any> = [
