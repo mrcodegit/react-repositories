@@ -8,7 +8,7 @@ function Repositories({
   repositoryName = "",
 }: IProps) {
   const [dataSource] = useFetchRepos(repositoryName);
-  return <Table dataSource={dataSource} columns={columns}></Table>;
+  return <Table rowKey="id" dataSource={dataSource} columns={columns}></Table>;
 }
 
 export default Repositories;

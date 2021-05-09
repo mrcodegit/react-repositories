@@ -38,6 +38,8 @@ const getQuery = (repositoryName: string): string => {
 										forks {
 											totalCount
 										}
+                    id
+                    url
 							}
 						}
 					}

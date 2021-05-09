@@ -10,6 +10,13 @@ export const DEFAULT_COLUMNS: ColumnsType<any> = [
   {
     title: "Name",
     dataIndex: "name",
+    render: (text, row, index) => {
+      return React.createElement(
+        "a",
+        { href: row.url, target: "_blank", key: row.id },
+        text
+      );
+    },
   },
   {
     title: "Forks",
