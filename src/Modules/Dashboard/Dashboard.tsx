@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import Repositories from '../../Features/Github/Repositories/Repositories';
 
 const DashboardContainer = styled.div`
     width: 100%;
@@ -18,12 +19,13 @@ const DashboardContent = styled.div`
 `
 
 function Dashboard() {
-  return (
-    <DashboardContainer>
-      <DashboardContent>
-      </DashboardContent>
-    </DashboardContainer>
-  )
+    return (
+			<DashboardContainer>
+					<DashboardContent>
+              <Repositories repositoryName="react"></Repositories>
+					</DashboardContent>
+			</DashboardContainer>
+    )
 }
 
 export default Dashboard
