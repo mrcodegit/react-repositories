@@ -7,11 +7,12 @@ const DashboardContainer = styled.div`
   height: 100%;
   display: flex;
   justify-content: center;
-  align-items: center;
+  align-items: flex-start;
   background: #ddd;
 `;
 
 const DashboardContent = styled.div`
+  padding: 20px;
   max-width: 1200px;
   max-height: 675px;
   width: 100%;
