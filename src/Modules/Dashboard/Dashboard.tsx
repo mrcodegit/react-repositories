@@ -19,13 +19,13 @@ const DashboardContent = styled.div`
 `
 
 function Dashboard() {
-    return (
-			<DashboardContainer>
-					<DashboardContent>
-              <Repositories repositoryName="react"></Repositories>
-					</DashboardContent>
-			</DashboardContainer>
-    )
+  return (
+    <DashboardContainer>
+      <DashboardContent>
+        <Repositories repositoryName="react"></Repositories>
+      </DashboardContent>
+    </DashboardContainer>
+  )
 }
 
 export default Dashboard
