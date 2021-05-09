@@ -11,7 +11,7 @@ export const DEFAULT_COLUMNS: ColumnsType<any> = [
   {
     title: "Name",
     dataIndex: "name",
-    render: (text, row, index) => {
+    render: (text, row) => {
       return (
         <a href={row.url} target="_blank">
           {text}
@@ -22,7 +22,7 @@ export const DEFAULT_COLUMNS: ColumnsType<any> = [
   {
     title: "Forks",
     dataIndex: ["forks", "totalCount"],
-    render: (text, row, index) => {
+    render: (text) => {
       return (
         <span>
           <StarFilled style={{ marginRight: "5px" }} />
@@ -34,7 +34,7 @@ export const DEFAULT_COLUMNS: ColumnsType<any> = [
   {
     title: "Stars",
     dataIndex: "stargazerCount",
-    render: (text, row, index) => {
+    render: (text) => {
       return (
         <span>
           <ForkOutlined style={{ marginRight: "5px" }} />
